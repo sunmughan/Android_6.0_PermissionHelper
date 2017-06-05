@@ -52,7 +52,8 @@ permissionHelper.request(new PermissionHelper.PermissionCallback() {
 
 ### License
 ```
-Copyright 2017 Pankaj Sharma
+Copyright 2017 Sunmughan Swamy
+All Rights Reserved to Droidadda Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
