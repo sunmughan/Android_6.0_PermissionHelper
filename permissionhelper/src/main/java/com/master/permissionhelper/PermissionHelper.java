@@ -1,5 +1,4 @@
 package com.master.permissionhelper;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,28 +11,21 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale;
-
 /**
  * Created by pankaj on 1/11/17.
  */
-
 public class PermissionHelper {
-
     private static final String TAG = "PermissionHelper";
     private static PermissionHelper permissionHelper;
     private static int REQUEST_CODE;
-
     private Activity activity;
     private Fragment fragment;
     private String[] permissions;
     private PermissionCallback mPermissionCallback;
     private boolean showRational;
-
     //=========Constructors - START=========
     private PermissionHelper(Activity activity, Fragment fragment, String[] permissions, int requestCode) {
         this.activity = activity;
@@ -42,21 +34,18 @@ public class PermissionHelper {
         this.REQUEST_CODE = requestCode;
         checkIfPermissionPresentInAndroidManifest();
     }
-
     public PermissionHelper(Activity activity, String[] permissions, int requestCode) {
         this.activity = activity;
         this.permissions = permissions;
         this.REQUEST_CODE = requestCode;
         checkIfPermissionPresentInAndroidManifest();
     }
-
     public PermissionHelper(Fragment fragment, String[] permissions, int requestCode) {
         this.fragment = fragment;
         this.permissions = permissions;
         this.REQUEST_CODE = requestCode;
         checkIfPermissionPresentInAndroidManifest();
     }
-
     private void checkIfPermissionPresentInAndroidManifest() {
         for (String permission : permissions) {
             if (hasPermission(permission) == false) {
@@ -64,7 +53,6 @@ public class PermissionHelper {
             }
         }
     }
-
     //=========Constructors- END=========
     public void request(PermissionCallback permissionCallback) {
         this.mPermissionCallback = permissionCallback;
@@ -80,9 +68,7 @@ public class PermissionHelper {
                 mPermissionCallback.onPermissionGranted();
         }
     }
-
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         if (requestCode == REQUEST_CODE) {
             boolean denied = false;
             for (int grantResult : grantResults) {
@@ -91,7 +77,6 @@ public class PermissionHelper {
                     break;
                 }
             }
-
             if (denied) {
                 boolean currentShowRational = shouldShowRational(permissions);
                 if (showRational == false && currentShowRational == false) {
@@ -110,25 +95,19 @@ public class PermissionHelper {
             }
         }
     }
-
     //====================================
     //====================================
 
     public interface PermissionCallback {
         public void onPermissionGranted();
-
         public void onPermissionDenied();
-
         public void onPermissionDeniedBySystem();
     }
-
-
     private <T extends Context> T getContext() {
         if (activity != null)
             return (T) activity;
         return (T) fragment.getContext();
     }
-
     /**
      * Return list that is not granted and we need to ask for permission
      *
@@ -144,7 +123,6 @@ public class PermissionHelper {
         }
         return notGrantedPermission.toArray(new String[notGrantedPermission.size()]);
     }
-
     /**
      * Check permission is there or not for group of permissions
      *
@@ -159,8 +137,6 @@ public class PermissionHelper {
         }
         return true;
     }
-
-
     /**
      * Checking if there is need to show rational for group of permissions
      *
@@ -170,7 +146,6 @@ public class PermissionHelper {
     private boolean shouldShowRational(String[] permissions) {
         boolean currentShowRational = false;
         for (String permission : permissions) {
-
             if (activity != null) {
                 if (shouldShowRequestPermissionRationale(activity, permission) == true) {
                     currentShowRational = true;
@@ -185,7 +160,6 @@ public class PermissionHelper {
         }
         return currentShowRational;
     }
-
     //===================
     public boolean hasPermission(String permission) {
         try {
@@ -203,7 +177,6 @@ public class PermissionHelper {
         }
         return false;
     }
-
     /**
      * Open current application detail activity so user can change permission manually.
      */
